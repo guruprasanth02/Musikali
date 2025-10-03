@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>வடிவத்தை உருவாக்கவும்</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Shared game logic -->
+  <script src="/static/js/game.js" defer></script>
+  <style>
+        .nav-btn {
+            background: #f6a21a;
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: background 0.2s, box-shadow 0.2s;
+            border: none;
+            outline: none;
+            font-family: 'Poppins', sans-serif;
+            display: inline-block;
+        }
+        .nav-btn:hover {
+            color: #fff;
+        }
+        .logout-btn {
+            background: #e94560 !important;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-b from-amber-50 to-amber-100 min-h-screen">
+  <!-- Navbar -->
+  <nav class="bg-gradient-to-r from-amber-300 via-amber-200 to-amber-100 shadow-lg w-full mb-2">
+    <div class="max-w-full flex items-center justify-between px-8 py-5">
+      <div class="flex items-center gap-2">
+        <span class="text-3xl font-bold text-amber-900 tracking-wide select-none">Musiக்களி</span>
+      </div>
+      <div style="position:absolute; right:24px; top:10px; display:flex; gap:10px; align-items:center;">
+        <a href="/home" class="nav-btn">முகப்பு</a>
+        <a href="/practice" class="nav-btn">பயிற்சி</a>
+        <a href="/pattern" class="nav-btn">சுருதியைக் கண்டுபிடி</a>
+        <a href="/compose" class="nav-btn">வடிவத்தை உருவாக்கவும்</a>
+        <a href="/sour" class="nav-btn">தவறான சுவரம்</a>
+        <a href="/navarasa" class="nav-btn">நவரசம்</a>
+        <a href="/logout" class="nav-btn logout-btn">வெளியேறு</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Composition Controls -->
+  <div id="compositionControls" class="mb-2">
+    <div class="text-center mb-2">
+      <h3 class="text-lg font-bold text-amber-800 mb-2">உங்கள் அலங்காரம்</h3>
+      <div id="composedSequence" class="min-h-[40px] bg-white p-4 rounded-lg shadow-inner mb-2"></div>
+      <button id="playComposition" class="bg-amber-500 text-white px-6 py-4 rounded-lg hover:bg-amber-600">
+        அலங்காரம் இசைக்க
+      </button>
+      <button id="clearComposition" class="bg-red-500 text-white px-6 py-4 rounded-lg hover:bg-red-600 ml-4">
+        அழிக்க
+      </button>
+    </div>
+  </div>
+
+  <!-- Sitar/Veena String UI -->
+  <div class="bg-gradient-to-r from-amber-100 to-amber-200 p-8 rounded-lg shadow-lg mb-8">
+    <div id="sitarString" class="grid grid-cols-6 gap-4 md:grid-cols-12"></div>
+  </div>
+
+  <!-- Setup composition mode -->
+ <script>
+  window.onload = function() {
+    if (typeof updateGameMode === 'function') {
+      updateGameMode('composition');   // sets gameMode = composition AND builds sitar
+    } else if (typeof initializeSitarString === 'function') {
+      initializeSitarString();         // fallback
+    }
+
+    // Hook buttons
+    document.getElementById('playComposition').addEventListener('click', playComposition);
+    document.getElementById('clearComposition').addEventListener('click', () => {
+      composedPattern = [];
+      activeNotes.clear();
+      lastNoteEndTime = 0;
+      updateCompositionDisplay();
+    });
+  };
+</script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>நவரசா உணர்வு விளையாட்டு</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .nav-btn {
+            background: #f6a21a;
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: background 0.2s, box-shadow 0.2s;
+            border: none;
+            outline: none;
+            font-family: 'Poppins', sans-serif;
+            display: inline-block;
+        }
+        .nav-btn:hover {
+            color: #fff;
+        }
+        .logout-btn {
+            background: #e94560 !important;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-b from-amber-50 to-amber-100 min-h-screen">
+    <nav class="bg-gradient-to-r from-amber-300 via-amber-200 to-amber-100 shadow-lg w-full mb-2">
+        <div class="max-w-full flex items-center justify-between px-8 py-5">
+            <div class="flex items-center gap-2">
+                <span class="text-3xl font-bold text-amber-900 tracking-wide select-none">Musiக்களி</span>
+            </div>
+             <div style="position:absolute; right:24px; top:10px; display:flex; gap:10px; align-items:center;">
+                <a href="/home" class="nav-btn">முகப்பு</a>
+                <a href="/practice" class="nav-btn">பயிற்சி</a>
+                <a href="/pattern" class="nav-btn">சுருதியைக் கண்டுபிடி</a>
+                <a href="/compose" class="nav-btn">வடிவத்தை உருவாக்கவும்</a>
+                <a href="/sour" class="nav-btn">தவறான சுவரம்</a>
+                <a href="/navarasa" class="nav-btn">நவரசம்</a>
+                <a href="/logout" class="nav-btn logout-btn">வெளியேறு</a>
+            </div>
+        </div>
+    </nav>
+    <!-- Header Section -->
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-4xl font-bold text-center mb-6 text-amber-800">நவரசா உணர்வு விளையாட்டு</h1>
+        <p class="text-lg text-center text-gray-700 mb-6">ஆடியோ கிளிப்பை கேட்டு, அது எந்த உணர்வை பிரதிபலிக்கிறது என்று நீங்கள் நினைக்கிறீர்கள் என்பதை தேர்ந்தெடுக்கவும்!</p>
+    </div>
+
+    <!-- Game Section -->
+    <div id="game" class="bg-white shadow-lg rounded-lg p-6 w-full max-w-xl flex justify-center flex-col mx-auto">
+        <audio id="audio-player" controls class="w-full rounded mb-4 shadow"></audio>
+
+        <!-- Options for Emotions -->
+        <div id="options" class="grid grid-cols-2 gap-4 mb-6">
+            <!-- Options will be dynamically added here -->
+        </div>
+
+        <!-- Feedback Section -->
+        <p id="feedback" class="text-lg text-center mb-4 font-semibold"></p>
+
+        <!-- Score Section -->
+        <div class="flex justify-between items-center bg-amber-100 p-4 rounded-lg">
+            <span class="text-lg font-bold text-amber-800">மதிப்பெண்:</span>
+            <span id="score" class="text-2xl font-bold text-amber-600">0</span>
+        </div>
+    </div>
+
+    <!-- Script Section -->
+    <script>
+        let currentAudio = null;
+
+        // Load a new question
+        function loadQuestion() {
+            $.get('/get_question', function(data) {
+                if (data.audio) {
+                    $('#audio-player').attr('src', data.audio); // Set the audio source
+                    $('#options').empty(); // Clear existing buttons
+                    data.options.forEach(option => {
+                        $('#options').append(`
+                            <button
+                                onclick="submitAnswer('${option}')"
+                                class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-4 rounded-lg transition-colors">
+                                ${option}
+                            </button>
+                        `);
+                    });
+                    $('#feedback').text(''); // Clear feedback
+                } else {
+                    // If no more questions, display game over screen
+                    $('#game').html(`
+                        <h2 class="text-3xl font-bold text-center text-amber-800 mb-4">Game Over!</h2>
+                        <p class="text-lg text-center text-gray-700 mb-6">Your final score is:
+                            <span class="text-2xl font-bold text-amber-600">${$('#score').text()}</span>
+                        </p>
+                        <button
+                            onclick="restartGame()"
+                            class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                            Restart Game
+                        </button>
+                    `);
+                }
+            });
+        }
+
+        // Submit the user's answer
+       function submitAnswer(answer) {
+    $.ajax({
+        url: '/submit_answer',
+        type: 'POST',
+        contentType: 'application/json', // Specify the content type as JSON
+        data: JSON.stringify({ answer: answer }), // Send the answer as JSON
+        success: function(data) {
+            $('#feedback').text(data.correct ? 'Correct!' : `Wrong! The correct answer was ${data.correct_answer}.`);
+            $('#feedback').removeClass('text-red-600 text-green-600').addClass(data.correct ? 'text-green-600' : 'text-red-600');
+            $('#score').text('Score: ' + data.score);
+            setTimeout(loadQuestion, 1500); // Load the next question after 1.5 seconds
+        },
+        error: function() {
+            $('#feedback').text('An error occurred. Please try again.');
+            $('#feedback').addClass('text-red-600');
+        }
+    });
+}
+
+
+        // Restart the game
+        function restartGame() {
+            location.reload();
+        }
+
+        // Initialize the game
+        $(document).ready(function() {
+            loadQuestion();
+        });
+    </script>
+</body>
+</html>

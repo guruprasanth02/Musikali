@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Musiக்களி - வரவேற்கிறோம்</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary-bg: #1a1a2e;
+            --secondary-bg: #16213e;
+            --card-bg: #f3d398;
+            --primary-accent: #e94560;
+            --text-color: #000000;
+            --gold-accent: #f9d423;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: #f3d398;
+            background-image: url('/static/image.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: fixed;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+        h1, h2 {
+            font-family: 'Playfair Display', serif;
+            color: #000;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .nav-btn {
+            background: #f6a21a;
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: background 0.2s, box-shadow 0.2s;
+            border: none;
+            outline: none;
+            font-family: 'Poppins', sans-serif;
+            display: inline-block;
+        }
+        .nav-btn:hover {
+            color: #fff;
+        }
+        .logout-btn {
+            background: #e94560 !important;
+        }
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 30px 20px 40px 20px;
+        }
+        .hero h1 {
+            font-size: 3.2rem;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #b86b00;
+            letter-spacing: 1px;
+        }
+        /* Timeline Section */
+        .timeline-outer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+        .timeline-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 32px;
+            margin-bottom: 0;
+        }
+        .timeline-arrow-row {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            height: 48px;
+            gap: 32px;
+            margin-right: 182px;
+        }
+        .timeline-box {
+            background: rgba(255,255,255,0.85);
+            border-radius: 16px;
+            padding: 22px 32px;
+            max-width: 350px;
+            min-width: 260px;
+            box-shadow: 0 2px 8px #f6a21a33;
+            text-align: left;
+            position: relative;
+        }
+        .timeline-title {
+            color: #a86c00;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+        .timeline-era {
+            font-size: 1rem;
+            color: #e08b00;
+            font-weight: normal;
+        }
+        .timeline-desc {
+            color: #6e4306;
+            font-size: 1.05rem;
+        }
+        .timeline-arrow-right,
+        .timeline-arrow-left {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .timeline-arrow-down {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        @media (max-width: 900px) {
+            .timeline-row { flex-direction: column; gap: 0; }
+            .timeline-arrow-right, .timeline-arrow-left { display: none; }
+            .timeline-arrow-row { margin-right: 0; height: 32px; }
+            .timeline-arrow-down { margin: 12px 0; }
+        }
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            .pann-grid { grid-template-columns: 1fr; }
+            #searchInput { width: 90%; }
+            .timeline-box { max-width: 98vw; min-width: 0; }
+        }
+        /* Pann-Raga Explorer Section */
+        .explorer-section {
+            padding: 50px 0;
+            background-color: #f7b844;
+            border-radius: 20px;
+            margin-top: 40px;
+            box-shadow: 0 10px 30px rgba(157, 102, 102, 0.3);
+        }
+        .explorer-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: #000;
+        }
+        .search-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+        #searchInput {
+            width: 60%;
+            max-width: 500px;
+            padding: 15px 25px;
+            border: 2px solid var(--gold-accent);
+            border-radius: 50px;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        #searchInput::placeholder { color: rgba(0, 0, 0, 0.5); }
+        #searchInput:focus { box-shadow: 0 0 15px rgba(239, 202, 38, 0.5); }
+        .pann-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 20px 24px;
+        }
+        .pann-card {
+            background-color: #f3d398;
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid var(--gold-accent);
+            box-shadow: 0 5px 15px rgba(255, 49, 49, 0.796);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            color: #ff4444;
+        }
+        .pann-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(249, 212, 35, 0.4);
+        }
+        .pann-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: var(--gold-accent);
+            margin-bottom: 5px;
+            color: #000;
+        }
+        .raga-name {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            font-weight: 300;
+            color: #000;
+        }
+        .raga-label {
+            font-weight: bold;
+            color: #6e4306;
+            font-size: 1.05em;
+            margin-right: 4px;
+        }
+        .raga-value {
+            font-weight: 400;
+            color: #333;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-b from-amber-50 to-amber-100 min-h-screen">
+    <!-- Expanded Navbar -->
+    <nav class="bg-gradient-to-r from-amber-300 via-amber-200 to-amber-100 shadow-lg w-full mb-2">
+        <div class="w-full flex items-center justify-between px-8 py-5">
+            <div class="flex items-center gap-2">
+                <span class="text-3xl font-bold text-amber-900 tracking-wide select-none">Musiக்களி</span>
+            </div>
+            <div class="flex gap-3 items-center">
+                <a href="/home" class="nav-btn">முகப்பு</a>
+                <a href="/practice" class="nav-btn">பயிற்சி</a>
+                <a href="/pattern" class="nav-btn">சுருதியைக் கண்டுபிடி</a>
+                <a href="/compose" class="nav-btn">வடிவத்தை உருவாக்கவும்</a>
+                <a href="/sour" class="nav-btn">தவறான சுவரம்</a>
+                <a href="/navarasa" class="nav-btn">நவரசம்</a>
+                <a href="/logout" class="nav-btn logout-btn">வெளியேறு</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="hero">
+            <h1>
+                பாரம்பரிய இசையின் இனிமையைத் திறந்திடுங்கள்
+            </h1>
+            <div class="timeline-outer">
+                <!-- Top Row -->
+                <div class="timeline-row">
+                    <div class="timeline-box">
+                        <div class="timeline-title">📜 தொல்காப்பிய காலம் <span class="timeline-era">(2000 ஆண்டுகள் முன்பு)</span></div>
+                        <div class="timeline-desc">யாழ், நிலங்கள், பண் முறைகள் முதன்முதலில் பதிவு செய்யப்பட்டன. இசையின் தொடக்கக் காலம்!</div>
+                    </div>
+                    <div class="timeline-arrow-right">
+                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                         <path d="M8 24h32m0 0l-8-8m8 8l-8 8" stroke="#e08b00" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="timeline-box">
+                        <div class="timeline-title">🏺 சிலப்பதிகாரம் <span class="timeline-era">(1–5ம் நூற்றாண்டு)</span></div>
+                        <div class="timeline-desc">இசை மற்றும் நாட்டிய நுணுக்கங்கள் விரிவாகப் பதிவான இசைச் சுரங்கம். பண்கள், இசை, நடனம்—all in one epic!</div>
+                    </div>
+                </div>
+                <!-- Down Arrow from top right to bottom right -->
+                <div class="timeline-arrow-row">
+                    <div style="width: 350px;"></div>
+                    <div class="timeline-arrow-down">
+                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                            <path d="M24 8v32m0 0l8-8m-8 8l-8-8" stroke="#e08b00" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+                <!-- Bottom Row (reverse order for S flow) -->
+                <div class="timeline-row">
+                    <div class="timeline-box order-2 order-md-1">
+                        <div class="timeline-title">🕉️ பக்தி இலக்கிய காலம் <span class="timeline-era">(7–9ம் நூற்றாண்டு)</span></div>
+                        <div class="timeline-desc">தேவாரம், திருவாசகம், திவ்வியப் பிரபந்தங்களில் பண் முறைகள்; இவை பின்னர் கர்நாடக இசை ராகங்களாக உருமாறின.</div>
+                    </div>
+                    <div class="timeline-arrow-left order-1 order-md-2">
+                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                            <path d="M40 24H8m0 0l8-8m-8 8l8 8" stroke="#e08b00" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="timeline-box order-0 order-md-3">
+                        <div class="timeline-title">🎶 நவீன காலம் <span class="timeline-era">(1949 → இன்று)</span></div>
+                        <div class="timeline-desc">தமிழிசை சங்கம் பண்–ராக ஆய்வு மேற்கொண்டது; திரைப்பட இசை, நாட்டுப்புற இசை, கானா இசை போன்ற புதிய வடிவங்கள் உருவாயின.</div>
+                    </div>
+                </div>
+            </div>
+            <p style="margin-top:32px; color:#a86c00; font-weight:600; font-size:1.1rem;">
+                <span style="background:rgba(255,255,255,0.5); padding:6px 18px; border-radius:12px;">
+                    இசை ஒரு பயணம் – காலத்தைக் கடந்து, கலாச்சாரங்களை இணைக்கும்!
+                </span>
+            </p>
+        </section>
+
+        <section class="explorer-section">
+            <div class="container">
+                <h2>பண்–ராகம் ஆராய்ச்சி</h2>
+                <div class="search-wrapper">
+                    <input type="text" id="searchInput" placeholder="பண் அல்லது ராகம் ஒன்றைத் தேடவும்...">
+                </div>
+                <div class="pann-grid" id="pannGrid"></div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+       const pannData = [
+    { pann_name: "பண் இந்தளம்", raga_name: "மாயாமாளவகௌள", pann_thanglish: "indalam", raga_thanglish: "mayamalavagowla" },
+    { pann_name: "பண் கௌசிகம்", raga_name: "பைரவி", pann_thanglish: "koushikam", raga_thanglish: "bhairavi" },
+    { pann_name: "பண் காந்தார பஞ்சமம்", raga_name: "கேதாரகௌள", pann_thanglish: "gandhara panchamam", raga_thanglish: "kedaragowla" },
+    { pann_name: "பண் சதாரி", raga_name: "பாந்துவராளி (சுபபாந்துவராளி)", pann_thanglish: "sathari", raga_thanglish: "bhanthuvarali" },
+    { pann_name: "பண் செவ்வாழி", raga_name: "யதுகுலகாம்போஜி", pann_thanglish: "sevvaazhi", raga_thanglish: "yadhukula kambhoji" },
+    { pann_name: "பண் பழம் பஞ்சுரம்", raga_name: "சங்கராபரணம்", pann_thanglish: "pazham panchuram", raga_thanglish: "sankarabharanam" },
+    { pann_name: "பண் தக்கேசி", raga_name: "காம்போஜி", pann_thanglish: "thakkechi", raga_thanglish: "kamboji" },
+    { pann_name: "பண் நாட்டபடை", raga_name: "கம்பீரநாட்டை (நாட்டை)", pann_thanglish: "nattapadai", raga_thanglish: "kambiranattai" },
+    { pann_name: "பண் வியாழக்குறிஞ்சி", raga_name: "சௌராஷ்டிரம்", pann_thanglish: "viyazhakurinji", raga_thanglish: "saurashtram" },
+    { pann_name: "பண் பழந்தக்கராகம்", raga_name: "சுத்தசாவேரி", pann_thanglish: "pazham thakkaragam", raga_thanglish: "suddhasaveri" },
+    { pann_name: "பண் மேக ராகக்குறிஞ்சி", raga_name: "நீலாம்பரி", pann_thanglish: "mega ragakurinji", raga_thanglish: "neelambari" },
+    { pann_name: "பண் குறிஞ்சி", raga_name: "ஹரிகாம்போஜி (அல்லது குறிஞ்சி, நாடகுறிஞ்சி)", pann_thanglish: "kurinji", raga_thanglish: "harikambhoji" },
+    { pann_name: "பண் சிறு பஞ்சாரம்", raga_name: "ஆனந்தபைரவி", pann_thanglish: "siru pancharam", raga_thanglish: "anandabhairavi" },
+    { pann_name: "பண் கொள்ளி", raga_name: "நவரோஜ்", pann_thanglish: "kolli", raga_thanglish: "navaroj" },
+    { pann_name: "பண் அந்தரக்குறிஞ்சி", raga_name: "மந்தாரி", pann_thanglish: "andhara kurinji", raga_thanglish: "mandari" },
+    { pann_name: "பண் பழம் தக்கராகம்", raga_name: "சுத்தசாவேரி", pann_thanglish: "pazham thakkaragam", raga_thanglish: "suddhasaveri" },
+    { pann_name: "பண் முடிந்த கௌசிகம்", raga_name: "முகாரி", pann_thanglish: "mudintha koushikam", raga_thanglish: "mukhari" },
+    { pann_name: "பண் பஞ்சாரம்", raga_name: "ஆஹிரி", pann_thanglish: "pancharam", raga_thanglish: "ahiri" },
+    { pann_name: "பண் செவ்வளி", raga_name: "யதுகுலகாம்போஜி", pann_thanglish: "sevvali", raga_thanglish: "yadhukula kambhoji" },
+    { pann_name: "பண் நாட்டராகம்", raga_name: "நாட்டை (அல்லது கம்பீரநாட்டை)", pann_thanglish: "nattaragam", raga_thanglish: "nattai" },
+    { pann_name: "பண் சாலரபாணி", raga_name: "தேவகாந்தாரி", pann_thanglish: "salarapani", raga_thanglish: "devagandhari" },
+    { pann_name: "பண் காந்தாரம்", raga_name: "கேதாரகௌள", pann_thanglish: "gandharam", raga_thanglish: "kedaragowla" },
+    { pann_name: "பண் தக்கேசி", raga_name: "காம்போஜி", pann_thanglish: "thakkechi", raga_thanglish: "kamboji" },
+    { pann_name: "பண் கொள்ளி", raga_name: "நவரோஜ்", pann_thanglish: "kolli", raga_thanglish: "navaroj" },
+    { pann_name: "பண் புறநீர்காந்தாரம்", raga_name: "ஆரபி", pann_thanglish: "puraneer gandharam", raga_thanglish: "arabhi" },
+    { pann_name: "பண் தக்கராகம்", raga_name: "காம்போஜி", pann_thanglish: "thakkaragam", raga_thanglish: "kamboji" },
+    { pann_name: "பண் செந்துறுத்தி", raga_name: "மத்யமாவதி", pann_thanglish: "senthuruthi", raga_thanglish: "madhyamavati" },
+    { pann_name: "பண் கொள்ளிக் கவுவானம்", raga_name: "புன்னாகவராளி", pann_thanglish: "kollik kavuvanam", raga_thanglish: "punnagavarali" },
+    { pann_name: "பண் வியாழக்குறிஞ்சி", raga_name: "சௌராஷ்டிரம்", pann_thanglish: "viyazhakurinji", raga_thanglish: "saurashtram" },
+    { pann_name: "பண் மேகராகக் குறிஞ்சி", raga_name: "நீலாம்பரி", pann_thanglish: "megaraaga kurinji", raga_thanglish: "neelambari" },
+    { pann_name: "பண் நாட்டபடை", raga_name: "நாட்டை", pann_thanglish: "nattapadai", raga_thanglish: "nattai" },
+    { pann_name: "பண் தக்கேசி", raga_name: "காம்போஜி", pann_thanglish: "thakkechi", raga_thanglish: "kamboji" },
+    { pann_name: "பண் சதாரி", raga_name: "பாந்துவராளி", pann_thanglish: "sathari", raga_thanglish: "bhanthuvarali" },
+    { pann_name: "பண் பழந்தக்கராகம்", raga_name: "சுத்தசாவேரி", pann_thanglish: "pazham thakkaragam", raga_thanglish: "suddhasaveri" },
+    { pann_name: "பண் இந்தளம்", raga_name: "மாயாமாளவகௌள", pann_thanglish: "indalam", raga_thanglish: "mayamalavagowla" },
+    { pann_name: "பண் குறிஞ்சி", raga_name: "ஹரிகாம்போஜி", pann_thanglish: "kurinji", raga_thanglish: "harikambhoji" },
+    { pann_name: "பண் சாலரபாணி", raga_name: "தேவகாந்தாரி", pann_thanglish: "salarapani", raga_thanglish: "devagandhari" },
+    { pann_name: "பண் கொள்ளி", raga_name: "நவரோஜ்", pann_thanglish: "kolli", raga_thanglish: "navaroj" },
+    { pann_name: "பண் அந்தரக்குறிஞ்சி", raga_name: "மந்தாரி", pann_thanglish: "andhara kurinji", raga_thanglish: "mandari" },
+    { pann_name: "பண் பழம் பஞ்சுரம்", raga_name: "சங்கராபரணம்", pann_thanglish: "pazham panchuram", raga_thanglish: "sankarabharanam" },
+];
+
+        const pannGrid = document.getElementById('pannGrid');
+        const searchInput = document.getElementById('searchInput');
+
+        // Function to display the cards
+        const displayCards = (data) => {
+            pannGrid.innerHTML = '';
+            if (data.length === 0) {
+                pannGrid.innerHTML = '<p style="text-align: center; grid-column: 1 / -1; color:#a86c00; font-weight:600; font-size:1.1rem">பொருத்தமான பண்ணோ ராகமோ எதுவும் இல்லை. வேறு தேடல் சொல்லை முயற்சிக்கவும்!</p>';
+                return;
+            }
+            data.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'pann-card';
+                card.innerHTML = `
+                    <h3 class="pann-name">${item.pann_name}</h3>
+                    <p class="raga-name">
+                        <span class="raga-label">கர்நாடக சங்கீத ராகம்:</span>
+                        <span class="raga-value">${item.raga_name}</span>
+                    </p>
+                `;
+                pannGrid.appendChild(card);
+            });
+        };
+
+        // Event listener for the search input
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase().trim();
+            const filteredData = pannData.filter(item =>
+                item.pann_name.toLowerCase().includes(searchTerm) ||
+                item.raga_name.toLowerCase().includes(searchTerm) ||
+                (item.pann_thanglish && item.pann_thanglish.toLowerCase().includes(searchTerm)) ||
+                (item.raga_thanglish && item.raga_thanglish.toLowerCase().includes(searchTerm))
+            );
+            displayCards(filteredData);
+        });
+
+        // Initial display of all cards
+        displayCards(pannData);
+    </script>
+</body>
+</html>

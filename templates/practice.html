@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>பயிற்சி</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/static/js/game.js" defer></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof updateGameMode === 'function') {
+                updateGameMode('composition');
+            }
+        });
+    </script>
+    <style>
+        .nav-btn {
+            background: #f6a21a;
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: background 0.2s, box-shadow 0.2s;
+            border: none;
+            outline: none;
+            font-family: 'Poppins', sans-serif;
+            display: inline-block;
+        }
+        .nav-btn:hover {
+            color: #fff;
+        }
+        .logout-btn {
+            background: #e94560 !important;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-b from-amber-50 to-amber-100 min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-gradient-to-r from-amber-300 via-amber-200 to-amber-100 shadow-lg w-full mb-2">
+        <div class="w-full flex items-center justify-between px-8 py-5">
+            <div class="flex items-center gap-2">
+                <span class="text-3xl font-bold text-amber-900 tracking-wide select-none">Musiக்களி</span>
+            </div>
+            <div class="flex gap-3 items-center">
+                <a href="/home" class="nav-btn">முகப்பு</a>
+                <a href="/practice" class="nav-btn">பயிற்சி</a>
+                <a href="/pattern" class="nav-btn">சுருதியைக் கண்டுபிடி</a>
+                <a href="/compose" class="nav-btn">வடிவத்தை உருவாக்கவும்</a>
+                <a href="/sour" class="nav-btn">தவறான சுவரம்</a>
+                <a href="/navarasa" class="nav-btn">நவரசம்</a>
+                <a href="/logout" class="nav-btn logout-btn">வெளியேறு</a>
+            </div>
+        </div>
+    </nav>
+    <!-- Practice Mode Message -->
+    <div id="practiceMessage" class="mb-8 flex justify-center">
+        <p class="text-center text-lg text-amber-800">பயிற்சி முறை: விளையாட சுவரம்களைக் கிளிக் செய்யவும்.</p>
+    </div>
+    <!-- Sitar/Veena String UI -->
+    <div class="bg-gradient-to-r from-amber-100 to-amber-200 p-8 rounded-lg shadow-lg mb-8">
+        <div id="sitarString" class="grid grid-cols-6 gap-4 md:grid-cols-12">
+            <!-- Notes will be populated by JavaScript -->
+        </div>
+    </div>
+</body>
+</html>
