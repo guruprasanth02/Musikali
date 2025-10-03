@@ -1,6 +1,6 @@
-# Musikkali 🎶
+# Musiக்களி 🎶
 
-Musikkali is a web-based music learning and quiz platform built with Flask. It features interactive games and exercises to help users practice and recognize musical notes, patterns, and emotions (Navarasa) in music.
+Musiக்களி is a web-based music learning and quiz platform built with Flask. It features interactive games and exercises to help users practice and recognize musical notes, patterns, and emotions (Navarasa) in music.
 
 ## Features
 
@@ -43,7 +43,7 @@ d:/Musiக்களி/
 1. **Clone the repository:**
     ```sh
     git clone https://github.com/yourusername/musikkali.git
-    cd musikkali
+    cd Musiக்களி
     ```
 
 2. **Install dependencies:**
