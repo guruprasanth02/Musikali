@@ -30,11 +30,12 @@ NAVARASA_AUDIO = {
     "Karuna": "static/audio/karuna.mp3",
     "Adbhuta": "static/audio/adbhuta.mp3",
     "Bhayanaka": "static/audio/bhayanaka.mp3"
-
 }
-#"Hasya": "static/audio/hasya.mp3", "Bibhatsa": "static/audio/bibhatsa.mp3","Raudra": "static/audio/raudra.mp3",
+# "Hasya": "static/audio/hasya.mp3", "Bibhatsa": "static/audio/bibhatsa.mp3","Raudra": "static/audio/raudra.mp3",
 
-# Login route (moved to /login)
+# ---------------- ROUTES ---------------- #
+
+# Login route
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if 'username' in session:
@@ -51,7 +52,7 @@ def login():
     return render_template('login.html', error=error)
 
 
-# Root route: redirect to login or home
+# Root route
 @app.route('/')
 def root():
     if 'username' in session:
@@ -64,8 +65,7 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('login'))
 
-
-# Home route (main app)
+# Home route
 @app.route('/home')
 def home():
     if 'username' not in session:
@@ -99,6 +99,8 @@ def sour():
     if 'username' not in session:
         return redirect(url_for('login'))
     return render_template('sour.html')
+
+# ---------------- GAME LOGIC ---------------- #
 
 # Pattern Recognition Game
 @app.route('/generate_pattern', methods=['POST'])
@@ -139,7 +141,7 @@ def generate_sour_note_melody():
 
     return jsonify({
         'melody': melody,
-        'sour_index': sour_index  # This is for frontend verification
+        'sour_index': sour_index  # For frontend verification
     })
 
 @app.route('/check_sour_note', methods=['POST'])
@@ -195,6 +197,6 @@ def submit_answer():
         "score": session.get('score', 0)
     })
 
-# Run the app
+# ---------------- RUN APP ---------------- #
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
